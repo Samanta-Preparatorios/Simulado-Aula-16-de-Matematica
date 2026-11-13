@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simulado D — Matemática | Professora Samanta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0A;
+    --panel: #161616;
+    --panel-2: #1E1E1E;
+    --line: #333333;
+    --orange: #F7941D;
+    --orange-deep: #E07B00;
+    --cream: #F5F2EA;
+    --text-soft: #B9B6AC;
+    --green: #4CAF6D;
+    --red: #E15C4E;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    background: var(--bg);
+    border-bottom: 3px solid var(--orange);
+    padding: 14px clamp(20px, 5vw, 56px);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .topbar img { height: 50px; width: auto; display: block; }
+  .topbar-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    border-left: 1px solid var(--line);
+    padding-left: 16px;
+    line-height: 1.4;
+  }
+  .topbar-text strong { color: var(--orange); }
+
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: clamp(32px, 6vw, 56px) clamp(20px, 6vw, 40px) 80px;
+  }
+
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--orange);
+    font-size: 0.92rem;
+    margin: 0 0 8px;
+  }
+
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5.5vw, 2.9rem);
+    line-height: 1.02;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .school {
+    color: var(--text-soft);
+    font-size: 0.92rem;
+    margin: 0 0 28px;
+  }
+
+  .notice {
+    border-left: 3px solid var(--orange);
+    background: var(--panel);
+    padding: 14px 18px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--text-soft);
+    margin-bottom: 34px;
+  }
+  .notice strong { color: var(--orange); }
+
+  .stats {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-bottom: 44px;
+  }
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 2.4rem;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--text-soft);
+    margin-top: 3px;
+  }
+
+  .part-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--orange-deep);
+    background: rgba(247,148,29,0.12);
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.7rem;
+    margin: 0 0 22px;
+  }
+
+  section.block { margin-bottom: 54px; }
+
+  .question {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 20px 20px 16px;
+    margin-bottom: 16px;
+  }
+  .question.correct-ok { border-color: var(--green); }
+  .question.correct-no { border-color: var(--red); }
+
+  .q-head {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .q-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    color: var(--orange);
+    font-size: 1.15rem;
+  }
+  .q-text { font-size: 1rem; line-height: 1.55; }
+
+  .options {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid var(--line);
+    background: var(--panel-2);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  .opt:hover { border-color: var(--orange); }
+  .opt input { accent-color: var(--orange); }
+  .opt.selected { border-color: var(--orange); background: rgba(247,148,29,0.08); }
+  .opt .letter { font-weight: 600; color: var(--orange); min-width: 16px; }
+
+  .opt.mark-correct { border-color: var(--green); background: rgba(76,175,109,0.1); }
+  .opt.mark-wrong { border-color: var(--red); background: rgba(225,92,78,0.1); }
+
+  .verdict {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: none;
+  }
+  .verdict.show { display: block; }
+  .verdict.ok { color: var(--green); }
+  .verdict.no { color: var(--red); }
+
+  .frac {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0 3px;
+    font-size: 0.88em;
+    line-height: 1.15;
+  }
+  .frac .num { border-bottom: 1px solid currentColor; padding: 0 3px; }
+  .frac .den { padding: 0 3px; }
+
+  .system {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 8px 0;
+  }
+  .system .brace { font-size: 2.4em; line-height: 1; font-weight: 300; color: var(--orange); }
+  .system .eqs { display: flex; flex-direction: column; gap: 2px; font-size: 0.98em; }
+
+  .submit-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 26px;
+  }
+
+  button.corrigir {
+    background: var(--orange);
+    color: #1a1200;
+    border: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    font-size: 1.05rem;
+    padding: 13px 28px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  button.corrigir:hover { background: var(--orange-deep); }
+  button.corrigir:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .progress { font-size: 0.88rem; color: var(--text-soft); }
+
+  .hint {
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    margin-top: 10px;
+  }
+
+  .score-panel {
+    display: none;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 28px 26px;
+    margin-bottom: 20px;
+  }
+  .score-panel.show { display: block; }
+
+  .score-top {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .score-pct {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 3.4rem;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .score-desc { color: var(--text-soft); font-size: 0.95rem; }
+
+  .bar {
+    height: 10px;
+    background: var(--line);
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .bar-fill { height: 100%; background: var(--orange); width: 0%; transition: width 0.4s ease; }
+
+  .counts { display: flex; gap: 24px; font-size: 0.9rem; color: var(--text-soft); }
+  .counts strong.green { color: var(--green); }
+  .counts strong.red { color: var(--red); }
+
+  .gabarito-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+  .gabarito-row:last-child { border-bottom: none; }
+  .gabarito-row .gnum { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; color: var(--orange); }
+  .gabarito-row .gletra { font-weight: 600; }
+  .gabarito-row .gstatus { font-size: 0.8rem; padding: 2px 9px; }
+  .gabarito-row .gstatus.ok { color: var(--green); border: 1px solid var(--green); }
+  .gabarito-row .gstatus.no { color: var(--red); border: 1px solid var(--red); }
+  .gabarito-list { background: var(--panel); border: 1px solid var(--line); }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--text-soft);
+  }
+  footer .quote {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-style: italic;
+    color: var(--orange);
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+  }
+  footer strong { color: var(--cream); }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <img src="logo-professora-samanta.jpeg" alt="Professora Samanta — Cursos Preparatórios">
+    <div class="topbar-text">PROFESSORA SAMANTA CURSOS PREPARATÓRIOS<br><strong>MATEMÁTICA · SIMULADO D</strong></div>
+  </div>
+
+  <main>
+    <p class="eyebrow">MATEMÁTICA · SIMULADO D</p>
+    <h1>Aula 16 — Simulado de Matemática</h1>
+    <p class="school">Rua Santa Catarina, nº 83 – Saramandaia – Igarassu/PE</p>
+
+    <div class="notice">
+      <strong>Atenção:</strong> leia atentamente cada questão e marque apenas uma alternativa. Não é permitido o uso de calculadora. As provas são diferentes, portanto não adianta olhar a prova ao lado — resolva apenas a sua.
+    </div>
+
+    <div class="stats">
+      <div><div class="stat-num">20</div><div class="stat-label">QUESTÕES</div></div>
+      <div><div class="stat-num">4</div><div class="stat-label">ALTERNATIVAS POR QUESTÃO</div></div>
+      <div><div class="stat-num">D</div><div class="stat-label">VERSÃO DO SIMULADO</div></div>
+    </div>
+
+    <section class="block">
+      <span class="part-label">PARTE 1</span>
+      <h2>Questionário</h2>
+
+      <form id="quiz"></form>
+
+      <div class="submit-row">
+        <button type="button" class="corrigir" id="btnCorrigir">Corrigir simulado</button>
+        <span class="progress" id="progress">0 de 20 respondidas</span>
+      </div>
+      <p class="hint">Você pode corrigir mesmo sem responder tudo — questões em branco contam como erro.</p>
+    </section>
+
+    <section class="block">
+      <span class="part-label">PARTE 2</span>
+      <h2>Seu desempenho</h2>
+      <div class="score-panel" id="scorePanel">
+        <div class="score-top">
+          <div>
+            <div class="score-pct" id="scorePct">0%</div>
+          </div>
+          <div class="score-desc" id="scoreDesc">Você acertou 0 de 20 questões</div>
+        </div>
+        <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+        <div class="counts">
+          <span>Acertos: <strong class="green" id="countOk">0</strong></span>
+          <span>Erros: <strong class="red" id="countNo">0</strong></span>
+        </div>
+      </div>
+      <p class="hint" id="scoreEmpty">Responda ao questionário acima e clique em <strong style="color:var(--orange)">Corrigir simulado</strong> para ver seu resultado.</p>
+    </section>
+
+    <section class="block">
+      <span class="part-label">PARTE 3</span>
+      <h2>Gabarito comentado</h2>
+      <div class="gabarito-list" id="gabaritoList"></div>
+      <p class="hint" id="gabaritoEmpty">O gabarito comentado aparece aqui assim que você corrigir o simulado.</p>
+    </section>
+
+    <footer>
+      <p class="quote">"A disciplina é a ponte entre metas e realizações."</p>
+      <p><strong>Professora Samanta</strong> — Cursos Preparatórios · Matemática · Simulado D</p>
+    </footer>
+  </main>
+
+<script>
+const questions = [
+  { text: "Um centro de distribuição recebeu 756 kg de alimentos. Na primeira etapa, separou-se 2/7 do total para doação. Na etapa seguinte, foi destinado 1/3 do que ainda restava. Quantos quilogramas permaneceram no estoque após as duas etapas?",
+    opts: ["360 kg", "216 kg", "180 kg", "540 kg"], correct: 0,
+    exp: "2/7 de 756 = 216 kg. Restam 540 kg. A segunda doação é 1/3 de 540 = 180 kg. Permanecem 540 − 180 = 360 kg." },
+
+  { text: "Em uma loja, um equipamento custava R$ 400,00. Durante uma promoção, recebeu um desconto de 20%. Sobre o preço já reduzido, foi aplicado mais um desconto de 10%. Qual foi o preço final pago pelo cliente?",
+    opts: ["R$ 280,00", "R$ 288,00", "R$ 320,00", "R$ 360,00"], correct: 1,
+    exp: "Primeiro desconto: 20% de 400 = 80; preço reduzido = R$ 320,00. Segundo desconto: 10% de 320 = 32; preço final = R$ 288,00." },
+
+  { text: "Para preparar uma receita destinada a 7 pessoas, uma cantina utiliza 490 g de farinha. Mantendo a mesma proporção entre os ingredientes, quantos gramas de farinha serão necessários para preparar a receita para 11 pessoas?",
+    opts: ["700 g", "735 g", "770 g", "805 g"], correct: 2,
+    exp: "490 ÷ 7 = 70 g por pessoa. Para 11 pessoas: 70 × 11 = 770 g." },
+
+  { text: "Uma equipe de 18 trabalhadores, mantendo o mesmo ritmo de produção, consegue concluir determinado serviço em 20 dias. Se a equipe passar a ter 24 trabalhadores, todos com a mesma produtividade, em quantos dias o serviço poderá ser concluído?",
+    opts: ["12 dias", "18 dias", "20 dias", "15 dias"], correct: 3,
+    exp: "O trabalho total equivale a 18 × 20 = 360 trabalhador-dias. Com 24 trabalhadores: 360 ÷ 24 = 15 dias." },
+
+  { text: "Durante uma viagem, um ônibus percorreu 160 km na primeira etapa, realizada em 2 horas, e mais 180 km na segunda etapa, realizada em 3 horas. Desconsiderando as paradas, qual foi a velocidade média do ônibus em todo o percurso?",
+    opts: ["68 km/h", "65 km/h", "60 km/h", "72 km/h"], correct: 0,
+    exp: "A distância total foi 160 + 180 = 340 km e o tempo total foi 2 + 3 = 5 horas. Velocidade média = 340 ÷ 5 = 68 km/h." },
+
+  { text: "Uma cisterna estava completamente cheia e armazenava 3,6 m³ de água. Após o consumo de 25% desse volume, quantos litros de água permaneceram na cisterna? Considere que 1 m³ corresponde a 1.000 litros.",
+    opts: ["2.500 L", "2.700 L", "2.800 L", "3.000 L"], correct: 1,
+    exp: "Restam 75% do volume: 0,75 × 3,6 = 2,7 m³. Convertendo: 2,7 × 1.000 = 2.700 litros." },
+
+  { text: "A nota final de um estudante é calculada por média ponderada de duas avaliações: a primeira tem peso 2 e a segunda tem peso 3. Se ele obteve notas 6,5 e 9,0, respectivamente, qual foi sua média final?",
+    opts: ["7,5", "8,2", "8,0", "8,5"], correct: 2,
+    exp: "Média ponderada = (6,5 × 2 + 9,0 × 3) ÷ 5 = (13 + 27) ÷ 5 = 40 ÷ 5 = 8,0." },
+
+  { text: "Em uma atividade, foi solicitado o valor da expressão 5² + √121 − 3². Qual é o resultado correto?",
+    opts: ["29", "31", "33", "27"], correct: 3,
+    exp: "5² = 25, √121 = 11 e 3² = 9. Assim, 25 + 11 − 9 = 27." },
+
+  { text: "Em um problema de planejamento, a quantidade desconhecida x deve satisfazer a equação 6x + 15 = 9x − 24. Qual é o valor de x?",
+    opts: ["13", "11", "12", "15"], correct: 0,
+    exp: "6x + 15 = 9x − 24. Reorganizando: 15 + 24 = 9x − 6x; então 39 = 3x e x = 13." },
+
+  { text: "Em uma bilheteria, foram vendidos ingressos para adultos e crianças. Em uma compra, 3 ingressos de adulto e 2 de criança custaram R$ 84,00; em outra, 2 ingressos de adulto e 3 de criança custaram R$ 76,00. Considerando preços constantes, qual era o preço de um ingresso de adulto?",
+    opts: ["R$ 16,00", "R$ 20,00", "R$ 18,00", "R$ 22,00"], correct: 1,
+    exp: "Se a é o preço adulto e c o infantil: 3a + 2c = 84 e 2a + 3c = 76. Multiplicando por 3 e por 2: 9a + 6c = 252 e 4a + 6c = 152. Subtraindo, 5a = 100; logo, a = R$ 20,00." },
+
+  { text: "O custo de produção de uma pequena oficina é representado pelo polinômio P(x) = 2x² − 3x + 5, em que x representa a quantidade produzida, em dezenas de unidades. Qual é o valor de P(5)?",
+    opts: ["35", "38", "40", "45"], correct: 2,
+    exp: "Substituindo x = 5: P(5) = 2 × 5² − 3 × 5 + 5 = 50 − 15 + 5 = 40." },
+
+  { text: "Uma associação vai dividir um prêmio de R$ 2.400,00 entre três equipes, em partes diretamente proporcionais a 2, 3 e 5. Qual valor deverá receber a equipe que ficará com a maior parte?",
+    opts: ["R$ 1.100,00", "R$ 1.150,00", "R$ 1.250,00", "R$ 1.200,00"], correct: 3,
+    exp: "A soma das partes é 2 + 3 + 5 = 10. Cada parte vale 2.400 ÷ 10 = R$ 240,00. A maior corresponde a 5 partes: 5 × 240 = R$ 1.200,00." },
+
+  { text: "Duas retas paralelas são cortadas por uma transversal. Um dos ângulos internos alternos mede 73°. Qual é a medida do outro ângulo interno alterno formado por essa transversal?",
+    opts: ["73°", "63°", "83°", "107°"], correct: 0,
+    exp: "Ângulos internos alternos em retas paralelas são congruentes. Portanto, o outro ângulo mede 73°." },
+
+  { text: "Os ângulos internos de um triângulo medem, respectivamente, (x + 15)°, (2x + 15)° e (3x − 30)°. Qual é a medida do maior ângulo desse triângulo?",
+    opts: ["68°", "75°", "80°", "85°"], correct: 1,
+    exp: "A soma é 180°: (x + 15) + (2x + 15) + (3x − 30) = 180. Então, 6x = 180 e x = 30. Os ângulos são 45°, 75° e 60°; o maior é 75°." },
+
+  { text: "A soma das medidas dos ângulos internos de um polígono convexo é 1620°. Quantas diagonais esse polígono possui?",
+    opts: ["40", "42", "44", "48"], correct: 2,
+    exp: "(n − 2) × 180 = 1620, então n − 2 = 9 e n = 11. Diagonais = n(n − 3)/2 = 11 × 8 ÷ 2 = 44." },
+
+  { text: "No mesmo horário, uma pessoa de 1,5 m de altura projeta uma sombra de 2,5 m. Nas mesmas condições de iluminação, um prédio projeta uma sombra de 15 m. Considerando os triângulos formados semelhantes, qual é a altura do prédio?",
+    opts: ["8 m", "8,5 m", "9,5 m", "9 m"], correct: 3,
+    exp: "Pela semelhança: h/15 = 1,5/2,5. Portanto, h = 15 × 1,5 ÷ 2,5 = 9 m." },
+
+  { text: "Um terreno tem formato de trapézio, com bases paralelas medindo 24 m e 16 m e altura de 7 m. Qual é a área desse terreno?",
+    opts: ["140 m²", "120 m²", "144 m²", "150 m²"], correct: 0,
+    exp: "Área = (B + b) × h ÷ 2 = (24 + 16) × 7 ÷ 2 = 40 × 3,5 = 140 m²." },
+
+  { text: "Uma rampa retilínea será instalada para ligar o chão a uma plataforma. A plataforma está a 7 m do chão, e a base da rampa ficará a 24 m da parede vertical. Qual deverá ser o comprimento da rampa, considerando que ela forma a hipotenusa de um triângulo retângulo?",
+    opts: ["26 m", "25 m", "27 m", "28 m"], correct: 1,
+    exp: "Pelo teorema de Pitágoras: c² = 7² + 24² = 49 + 576 = 625. Logo, c = √625 = 25 m." },
+
+  { text: "Uma praça circular será reformada. O projeto prevê que ela tenha raio de 10 m. Considerando π como símbolo, qual expressão representa a área da praça?",
+    opts: ["20π m²", "50π m²", "100π m²", "120π m²"], correct: 2,
+    exp: "A = πr². Com r = 10 m: A = π × 10² = 100π m²." },
+
+  { text: "Uma biblioteca registrou a quantidade de livros emprestados em quatro semanas. Os registros foram: semana 1, 64; semana 2, 80; semana 3, 56; semana 4, 60. Qual foi a média aritmética de livros emprestados por semana?",
+    opts: ["60", "62", "68", "65"], correct: 3,
+    exp: "Média = (64 + 80 + 56 + 60) ÷ 4 = 260 ÷ 4 = 65 livros." }
+];
+
+function html_sup(n){ return "<sup>" + n + "</sup>"; }
+function html_frac(a,b){ return '<span class="frac"><span class="num">'+a+'</span><span class="den">'+b+'</span></span>'; }
+function html_system(a,b){ return '<span class="system"><span class="brace">{</span><span class="eqs"><span>'+a+'</span><span>'+b+'</span></span></span>'; }
+
+const answers = new Array(questions.length).fill(null);
+const letters = ["A","B","C","D"];
+const form = document.getElementById('quiz');
+
+questions.forEach((q, i) => {
+  const div = document.createElement('div');
+  div.className = 'question';
+  div.id = 'q' + i;
+
+  const head = document.createElement('div');
+  head.className = 'q-head';
+  head.innerHTML = '<span class="q-num">' + (i+1) + '.</span><span class="q-text">' + q.text + '</span>';
+  div.appendChild(head);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+
+  q.opts.forEach((opt, j) => {
+    const label = document.createElement('label');
+    label.className = 'opt';
+    label.id = 'q' + i + 'opt' + j;
+    label.innerHTML = '<input type="radio" name="q' + i + '" value="' + j + '"><span class="letter">' + letters[j] + '</span><span>' + opt + '</span>';
+    label.querySelector('input').addEventListener('change', () => {
+      answers[i] = j;
+      optsWrap.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+      label.classList.add('selected');
+      updateProgress();
+    });
+    optsWrap.appendChild(label);
+  });
+
+  div.appendChild(optsWrap);
+
+  const verdict = document.createElement('div');
+  verdict.className = 'verdict';
+  verdict.id = 'q' + i + 'verdict';
+  div.appendChild(verdict);
+
+  form.appendChild(div);
+});
+
+function updateProgress(){
+  const answered = answers.filter(a => a !== null).length;
+  document.getElementById('progress').textContent = answered + ' de ' + questions.length + ' respondidas';
+}
+
+document.getElementById('btnCorrigir').addEventListener('click', () => {
+  let correctCount = 0;
+
+  questions.forEach((q, i) => {
+    const qDiv = document.getElementById('q' + i);
+    const isCorrect = answers[i] === q.correct;
+    if (isCorrect) correctCount++;
+
+    qDiv.classList.remove('correct-ok', 'correct-no');
+    qDiv.classList.add(isCorrect ? 'correct-ok' : 'correct-no');
+
+    q.opts.forEach((opt, j) => {
+      const optEl = document.getElementById('q' + i + 'opt' + j);
+      optEl.classList.remove('mark-correct', 'mark-wrong');
+      if (j === q.correct) optEl.classList.add('mark-correct');
+      else if (j === answers[i]) optEl.classList.add('mark-wrong');
+    });
+
+    const verdict = document.getElementById('q' + i + 'verdict');
+    verdict.classList.add('show');
+    if (isCorrect) {
+      verdict.classList.add('ok');
+      verdict.classList.remove('no');
+      verdict.textContent = 'Correto — alternativa ' + letters[q.correct] + '.';
+    } else {
+      verdict.classList.add('no');
+      verdict.classList.remove('ok');
+      verdict.textContent = answers[i] === null
+        ? 'Questão em branco — alternativa correta: ' + letters[q.correct] + '.'
+        : 'Incorreto — alternativa correta: ' + letters[q.correct] + '.';
+    }
+  });
+
+  const total = questions.length;
+  const pct = Math.round((correctCount / total) * 100);
+
+  document.getElementById('scorePanel').classList.add('show');
+  document.getElementById('scoreEmpty').style.display = 'none';
+  document.getElementById('scorePct').textContent = pct + '%';
+  document.getElementById('scoreDesc').textContent = 'Você acertou ' + correctCount + ' de ' + total + ' questões';
+  document.getElementById('barFill').style.width = pct + '%';
+  document.getElementById('countOk').textContent = correctCount;
+  document.getElementById('countNo').textContent = total - correctCount;
+
+  const gabList = document.getElementById('gabaritoList');
+  gabList.innerHTML = '';
+  document.getElementById('gabaritoEmpty').style.display = 'none';
+
+  questions.forEach((q, i) => {
+    const isCorrect = answers[i] === q.correct;
+    const row = document.createElement('div');
+    row.className = 'gabarito-row';
+    row.innerHTML =
+      '<span class="gnum">' + (i+1) + '.</span>' +
+      '<span>Alternativa correta: <span class="gletra">' + letters[q.correct] + '</span> — ' + q.exp + '</span>' +
+      '<span class="gstatus ' + (isCorrect ? 'ok' : 'no') + '">' + (isCorrect ? 'Acertou' : 'Errou') + '</span>';
+    gabList.appendChild(row);
+  });
+
+  document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+</body>
+</html>
